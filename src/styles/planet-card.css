@@ -1,0 +1,278 @@
+/* Planet Card Animations and Effects - Aerospace Theme */
+@keyframes atmosphereGlowSubtle {
+  0%, 100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes orbitalRingSubtle {
+  0% {
+    transform: rotate(0deg) scale(1.1);
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: rotate(360deg) scale(1.1);
+    opacity: 0.1;
+  }
+}
+
+@keyframes spaceDebrisSubtle {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-5px);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 0.2;
+  }
+}
+
+@keyframes craterSubtle {
+  0%, 100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes floatingParticleSubtle {
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
+  33% {
+    transform: translateY(-8px) translateX(3px);
+    opacity: 0.3;
+  }
+  66% {
+    transform: translateY(-4px) translateX(-2px);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
+}
+
+.planet-container {
+  perspective: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Grid Layout Improvements */
+.planet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.planet-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 300px;
+  padding: 1rem;
+}
+
+/* Subtle atmosphere glow */
+.atmosphere-glow-subtle {
+  animation: atmosphereGlowSubtle 4s ease-in-out infinite;
+}
+
+/* Subtle orbital rings */
+.orbital-ring-subtle {
+  animation: orbitalRingSubtle 25s linear infinite;
+}
+
+.orbital-ring-reverse-subtle {
+  animation: orbitalRingSubtle 20s linear infinite reverse;
+}
+
+/* Subtle space debris */
+.space-debris-subtle {
+  animation: spaceDebrisSubtle 6s ease-in-out infinite;
+}
+
+/* Subtle crater effects */
+.crater-subtle {
+  animation: craterSubtle 3s ease-in-out infinite;
+}
+
+/* Subtle floating particles */
+.floating-particle-subtle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(148, 163, 184, 0.3) 0%, rgba(148, 163, 184, 0.1) 100%);
+  animation: floatingParticleSubtle 8s ease-in-out infinite;
+}
+
+.floating-particle-subtle:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.floating-particle-subtle:nth-child(2) {
+  animation-delay: 3s;
+}
+
+.floating-particle-subtle:nth-child(3) {
+  animation-delay: 6s;
+}
+
+/* Planet Type Specific Styles - Aerospace Dark Theme */
+.planet-rocky {
+  background: radial-gradient(circle at 30% 30%, 
+    #92400e 0%, 
+    #ea580c 15%, 
+    #dc2626 35%, 
+    #991b1b 60%, 
+    #7f1d1d 85%, 
+    #450a0a 100%);
+}
+
+.planet-gas {
+  background: radial-gradient(circle at 40% 40%, 
+    #475569 0%, 
+    #334155 20%, 
+    #1e293b 40%, 
+    #1e40af 60%, 
+    #1e3a8a 80%, 
+    #0f172a 100%);
+}
+
+.planet-ice {
+  background: radial-gradient(circle at 35% 35%, 
+    #64748b 0%, 
+    #475569 20%, 
+    #0ea5e9 40%, 
+    #0284c7 60%, 
+    #0369a1 80%, 
+    #0c4a6e 100%);
+}
+
+.planet-terrestrial {
+  background: radial-gradient(circle at 30% 30%, 
+    #166534 0%, 
+    #15803d 20%, 
+    #16a34a 40%, 
+    #059669 60%, 
+    #047857 80%, 
+    #064e3b 100%);
+}
+
+/* Enhanced Shadow Effects - Subtle Aerospace Theme */
+.planet-shadow-subtle {
+  box-shadow: 
+    0 0 15px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(51, 65, 85, 0.2),
+    inset 0 0 15px rgba(255, 255, 255, 0.03);
+}
+
+.planet-shadow-subtle:hover {
+  box-shadow: 
+    0 0 25px rgba(0, 0, 0, 0.7),
+    0 0 45px rgba(51, 65, 85, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+/* Aerospace-themed background gradients */
+.aerospace-bg {
+  background: linear-gradient(135deg, 
+    #0f172a 0%, 
+    #1e293b 25%, 
+    #334155 50%, 
+    #1e293b 75%, 
+    #0f172a 100%);
+}
+
+.aerospace-bg-alt {
+  background: linear-gradient(135deg, 
+    #020617 0%, 
+    #0f172a 25%, 
+    #1e293b 50%, 
+    #0f172a 75%, 
+    #020617 100%);
+}
+
+/* Text colors for aerospace theme */
+.aerospace-text-primary {
+  color: #e2e8f0;
+}
+
+.aerospace-text-secondary {
+  color: #cbd5e1;
+}
+
+.aerospace-text-accent {
+  color: #94a3b8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .planet-container {
+    transform: scale(0.85);
+  }
+  
+  .planet-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .planet-container {
+    transform: scale(0.75);
+  }
+  
+  .planet-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .atmosphere-glow-subtle,
+  .orbital-ring-subtle,
+  .orbital-ring-reverse-subtle,
+  .space-debris-subtle,
+  .crater-subtle,
+  .floating-particle-subtle {
+    animation: none;
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .planet-shadow-subtle {
+    box-shadow: 
+      0 0 20px rgba(0, 0, 0, 0.8),
+      0 0 40px rgba(51, 65, 85, 0.3),
+      inset 0 0 20px rgba(255, 255, 255, 0.02);
+  }
+} 

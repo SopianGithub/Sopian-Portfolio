@@ -1,0 +1,109 @@
+.project-card {
+  @apply bg-space-900/5 backdrop-blur-xl border border-space-800/20 rounded-2xl p-8 transition-all duration-500 relative overflow-hidden;
+}
+
+.project-card::before {
+  @apply content-[''] absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cosmic-500 via-space-500 to-cosmic-500 transform scale-x-0 transition-transform duration-500;
+}
+
+.project-card:hover::before {
+  @apply scale-x-100;
+}
+
+.project-card:hover {
+  @apply -translate-y-2 bg-space-900/10 shadow-xl shadow-space-900/20;
+}
+
+.featured-project {
+  @apply md:col-span-2 bg-gradient-to-br from-space-900/80 to-cosmic-900/80 border-2 border-space-500/20;
+}
+
+.featured-badge {
+  @apply absolute top-4 right-4 bg-gradient-to-r from-cosmic-500 to-space-500 px-4 py-2 rounded-full text-sm font-semibold text-white shadow-lg shadow-cosmic-500/25;
+}
+
+.project-header {
+  @apply flex items-center gap-4 mb-6;
+}
+
+.project-icon {
+  @apply w-16 h-16 rounded-xl flex items-center justify-center text-2xl shadow-lg;
+}
+
+.project-title {
+  @apply text-xl font-bold text-cosmic-400 mb-1;
+}
+
+.project-type {
+  @apply text-sm text-space-400 uppercase tracking-wider;
+}
+
+.project-description {
+  @apply text-space-300 mb-8 leading-relaxed;
+}
+
+.project-metrics {
+  @apply grid grid-cols-2 md:grid-cols-4 gap-4 mb-8;
+}
+
+.metric-item {
+  @apply bg-space-800/50 rounded-lg p-4 text-center;
+}
+
+.metric-number {
+  @apply block text-2xl font-bold text-cosmic-400 mb-1;
+}
+
+.metric-label {
+  @apply text-sm text-space-300;
+}
+
+.project-features {
+  @apply mb-8;
+}
+
+.features-title {
+  @apply text-cosmic-400 font-semibold mb-4 flex items-center gap-2;
+}
+
+.feature-item {
+  @apply flex items-center gap-3 text-space-300 mb-2;
+}
+
+.feature-check {
+  @apply text-cosmic-400;
+}
+
+.tech-stack {
+  @apply flex flex-wrap gap-2 mb-8;
+}
+
+.tech-tag {
+  @apply px-3 py-1 rounded-full text-sm bg-space-800/50 text-space-300 border border-space-700 hover:border-space-500 transition-all duration-300;
+}
+
+.project-actions {
+  @apply flex gap-4;
+}
+
+.btn {
+  @apply px-6 py-3 rounded-full font-semibold transition-all duration-300 text-center;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-space-500 to-cosmic-500 text-white hover:shadow-lg hover:shadow-space-500/25;
+}
+
+.btn-secondary {
+  @apply border border-space-500 text-space-400 hover:bg-space-800/50;
+}
+
+@media (max-width: 768px) {
+  .project-metrics {
+    @apply grid-cols-2;
+  }
+  
+  .featured-project {
+    @apply md:col-span-1;
+  }
+} 

@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:generate": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID --schema public > src/types/database.ts",
-    "db:reset": "supabase db reset",
+    "db:types": "npx supabase gen types typescript --local > src/types/database.ts",
+    "db:reset": "npx supabase db reset",
+    "db:push": "npx supabase db push",
+    "db:pull": "npx supabase db pull",
+    "db:status": "npx supabase status",
     "type-check": "tsc --noEmit",
     "lint:fix": "next lint --fix"
   },
@@ -18,10 +21,11 @@
     "@supabase/auth-helpers-react": "^0.5.0",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
-    "@supabase/supabase-js": "^2.49.9",
+    "@supabase/supabase-js": "^2.50.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.16.0",
+    "gsap": "^3.13.0",
     "lucide-react": "^0.512.0",
     "next": "15.3.3",
     "next-themes": "^0.4.6",
@@ -29,6 +33,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.57.0",
     "tailwind-merge": "^3.3.0",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^3.25.50"
   },
   "devDependencies": {
@@ -41,6 +46,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "postcss": "^8.5.4",
+    "supabase": "^2.24.3",
     "tailwindcss": "^4.1.8",
     "typescript": "^5"
   }
