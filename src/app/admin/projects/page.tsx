@@ -5,11 +5,11 @@ import Image from 'next/image'
 
 // Enhanced Project Card Component
 interface ProjectCardProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   project: any
-  index: number
 }
 
-function ProjectCard({ project, index }: ProjectCardProps) {
+function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article className="feature-card group">
       <div className="flex flex-col lg:flex-row gap-6 p-6">
@@ -60,7 +60,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
 
           {/* Technologies */}
           <div className="flex flex-wrap gap-2">
-            {Array.isArray(project.technologies) && project.technologies.slice(0, 3).map((tech, techIndex) => (
+            {Array.isArray(project.technologies) && project.technologies.slice(0, 3).map((tech: string, techIndex: number) => (
               <span
                 key={techIndex}
                 className="status-badge bg-blue-500/10 border-blue-500/20 text-blue-300 hover:bg-blue-500/20 transition-all duration-300"
@@ -132,11 +132,10 @@ async function ProjectsList() {
     
     return (
       <div className="space-y-6">
-        {projects.map((project, index) => (
+        {projects.map((project) => (
           <ProjectCard
             key={project.id}
             project={project}
-            index={index}
           />
         ))}
       </div>

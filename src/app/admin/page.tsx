@@ -40,7 +40,7 @@ interface ManagementCardProps {
   color: string
 }
 
-function ManagementCard({ title, description, icon, primaryAction, secondaryAction, color }: ManagementCardProps) {
+function ManagementCard({ title, description, icon, primaryAction, secondaryAction }: ManagementCardProps) {
   return (
     <article className="feature-card group">
       <div className="p-8 text-center space-y-6">
@@ -215,7 +215,7 @@ export default function AdminPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {managementSections.map((section, index) => (
+            {managementSections.map((section) => (
               <ManagementCard
                 key={section.title}
                 {...section}

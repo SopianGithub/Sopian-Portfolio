@@ -178,58 +178,7 @@ export interface PortfolioContentMap {
 }
 
 // Types for transformed portfolio data
-interface TransformedPortfolioData {
-  hero: {
-    name: string
-    tagline: string
-    summary: string
-    location: string
-    profileImage?: string
-  }
-  experience: Array<{
-    title: string
-    company: string
-    location: string
-    startDate: string
-    endDate?: string | null
-    description: string
-    technologies: string[]
-    achievements: string[]
-    featured?: boolean
-  }>
-  skills: Array<{
-    name: string
-    category: string
-    level: number
-    iconUrl?: string
-  }>
-  projects: Array<{
-    title: string
-    description: string
-    technologies: string[]
-    githubUrl?: string
-    demoUrl?: string
-    featured?: boolean
-  }>
-  education: Array<{
-    institution: string
-    degree: string
-    fieldOfStudy?: string
-    startDate: string
-    endDate?: string
-    grade?: string
-    description?: string
-  }>
-  certifications: Array<{
-    name: string
-    issuer: string
-    issueDate: string
-    expirationDate?: string
-    credentialId?: string
-    credentialUrl?: string
-    skills: string[]
-  }>
-}
+
 
 interface InjectionResult {
   success: boolean
@@ -239,7 +188,7 @@ interface InjectionResult {
 
 // LinkedIn Data Transformer
 export class LinkedInDataTransformer {
-  static transformToPortfolio(data: LinkedInProfile): TransformedPortfolioData {
+  static transformToPortfolio(data: LinkedInProfile): PortfolioContentMap {
     return {
       hero: this.transformHero(data),
       experience: this.transformExperience(data.experiences),
@@ -327,13 +276,11 @@ export class LinkedInDataTransformer {
     }))
   }
   
-  private static transformCertifications(certifications: LinkedInCertification[]): TransformedPortfolioData['certifications'] {
+  private static transformCertifications(certifications: LinkedInCertification[]) {
     return certifications.map(cert => ({
       name: cert.name,
       issuer: cert.issuer,
-      issueDate: cert.issueDate,
-      expirationDate: cert.expirationDate,
-      credentialId: cert.credentialId,
+      date: cert.issueDate,
       credentialUrl: cert.credentialUrl,
       skills: cert.skills
     }))
@@ -525,7 +472,7 @@ export class PortfolioDataInjector {
               short_description: project.description.substring(0, 200),
               technologies: project.technologies,
               demo_url: project.demo_url,
-              github_url: project.url,
+              github_url: project.github_url,
               status: 'published',
               featured: true,
               source: 'linkedin',
@@ -571,8 +518,8 @@ export class PortfolioDataInjector {
               name: cert.name,
               issuer: cert.issuer,
               issue_date: cert.date,
-              expiration_date: cert.expirationDate,
-              credential_id: cert.credentialId,
+              expiration_date: null, // Field not available in current interface
+              credential_id: null, // Field not available in current interface
               credential_url: cert.credentialUrl,
               skills: cert.skills,
               sort_order: 0,

@@ -1,6 +1,52 @@
 // Content Recommendation System - HR Recruiter Perspective
 // This system analyzes professional profiles and provides strategic content recommendations
 
+export interface Skill {
+  name: string
+  level: number
+  category?: string
+}
+
+export interface Experience {
+  title: string
+  company: string
+  startDate: string
+  endDate?: string | null
+  achievements?: string[]
+  description?: string
+}
+
+export interface Project {
+  title: string
+  description: string
+  technologies: string[]
+  demo_url?: string
+  github_url?: string
+}
+
+export interface Certification {
+  name: string
+  issuer: string
+  date: string
+  credentialUrl?: string
+  skills?: string[]
+}
+
+export interface ProfileData {
+  name?: string
+  title?: string
+  location?: string
+  summary?: string
+  skills?: Skill[]
+  experience?: Experience[]
+  projects?: Project[]
+  certifications?: Certification[]
+  testimonials?: string[]
+  blog_posts?: string[]
+  open_source?: string[]
+  speaking_events?: string[]
+}
+
 export interface HRAnalysis {
   strengths: string[]
   opportunities: string[]
@@ -38,7 +84,7 @@ export interface PortfolioAudit {
 export class ContentRecommendationEngine {
   
   // Primary Content Analysis
-  static analyzeProfile(profileData: any): PortfolioAudit {
+  static analyzeProfile(profileData: ProfileData): PortfolioAudit {
     const hrAnalysis = this.performHRAnalysis(profileData)
     const sectionScores = this.evaluateSections(profileData)
     const recommendations = this.generateRecommendations(profileData, hrAnalysis)
@@ -54,7 +100,7 @@ export class ContentRecommendationEngine {
   }
   
   // HR Analysis from Recruiter Perspective
-  private static performHRAnalysis(profile: any): HRAnalysis {
+  private static performHRAnalysis(profile: ProfileData): HRAnalysis {
     return {
       strengths: this.identifyStrengths(profile),
       opportunities: this.identifyOpportunities(profile),
@@ -64,53 +110,54 @@ export class ContentRecommendationEngine {
     }
   }
   
-  private static identifyStrengths(profile: any): string[] {
+  private static identifyStrengths(profile: ProfileData): string[] {
     const strengths: string[] = []
     
     // Technical Expertise Analysis
-    if (profile.skills?.some((skill: any) => skill.level > 85)) {
+    if (profile.skills?.some((skill: Skill) => skill.level > 85)) {
       strengths.push("🚀 Deep Technical Expertise - Multiple advanced skills demonstrate mastery")
     }
     
     // Experience Depth
-    if (profile.experience?.length >= 3) {
+    if (profile.experience?.length && profile.experience.length >= 3) {
       strengths.push("⭐ Proven Track Record - Consistent career progression shows reliability")
     }
     
     // Leadership Indicators
-    if (profile.experience?.some((exp: any) => 
+    if (profile.experience?.some((exp: Experience) => 
       exp.title.toLowerCase().includes('senior') || 
       exp.title.toLowerCase().includes('lead') ||
-      exp.achievements?.length > 0
+      (exp.achievements && exp.achievements.length > 0)
     )) {
       strengths.push("👥 Leadership Potential - Senior roles and achievements indicate growth mindset")
     }
     
     // Full-Stack Capability
-    const frontendSkills = profile.skills?.filter((skill: any) => 
+    const frontendSkills = profile.skills?.filter((skill: Skill) => 
       ['react', 'vue', 'angular', 'javascript', 'typescript'].includes(skill.name.toLowerCase())
     )
-    const backendSkills = profile.skills?.filter((skill: any) => 
+    const backendSkills = profile.skills?.filter((skill: Skill) => 
       ['node', 'python', 'java', 'php', 'laravel'].includes(skill.name.toLowerCase())
     )
     
-    if (frontendSkills?.length >= 2 && backendSkills?.length >= 2) {
+    if (frontendSkills && frontendSkills.length >= 2 && backendSkills && backendSkills.length >= 2) {
       strengths.push("🔧 Full-Stack Versatility - Complete development capability across tech stack")
     }
     
     // Modern Tech Stack
-    const modernTech = profile.skills?.filter((skill: any) => 
+    const modernTech = profile.skills?.filter((skill: Skill) => 
       ['react', 'typescript', 'docker', 'aws', 'kubernetes', 'microservices'].includes(skill.name.toLowerCase())
     )
     
-    if (modernTech?.length >= 3) {
+    if (modernTech && modernTech.length >= 3) {
       strengths.push("⚡ Modern Technology Adoption - Stays current with industry trends")
     }
     
     return strengths
   }
   
-  private static identifyOpportunities(profile: any): string[] {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static identifyOpportunities(profile: ProfileData): string[] {
     const opportunities: string[] = []
     
     // Market Demand Analysis
@@ -123,7 +170,7 @@ export class ContentRecommendationEngine {
     return opportunities
   }
   
-  private static assessMarketPosition(profile: any): string {
+  private static assessMarketPosition(profile: ProfileData): string {
     const yearsExp = this.calculateExperienceYears(profile.experience || [])
     const skillLevel = this.calculateAverageSkillLevel(profile.skills || [])
     
@@ -136,16 +183,16 @@ export class ContentRecommendationEngine {
     }
   }
   
-  private static findCompetitiveAdvantage(profile: any): string[] {
+  private static findCompetitiveAdvantage(profile: ProfileData): string[] {
     const advantages: string[] = []
     
     // Technical Differentiation
-    if (profile.skills?.some((skill: any) => skill.name.toLowerCase().includes('ai'))) {
+    if (profile.skills?.some((skill: Skill) => skill.name.toLowerCase().includes('ai'))) {
       advantages.push("🤖 AI Integration Expertise - Only 15% of developers have practical AI experience")
     }
     
     // Cloud & DevOps
-    if (profile.skills?.some((skill: any) => 
+    if (profile.skills?.some((skill: Skill) => 
       ['aws', 'docker', 'kubernetes', 'devops'].includes(skill.name.toLowerCase())
     )) {
       advantages.push("☁️ Cloud-Native Development - High-demand skill combination")
@@ -160,7 +207,7 @@ export class ContentRecommendationEngine {
     return advantages
   }
   
-  private static suggestImprovements(profile: any): string[] {
+  private static suggestImprovements(profile: ProfileData): string[] {
     const improvements: string[] = []
     
     // Portfolio Gaps
@@ -169,7 +216,7 @@ export class ContentRecommendationEngine {
     }
     
     // Quantified Achievements
-    if (!profile.experience?.some((exp: any) => exp.achievements?.length > 0)) {
+    if (!profile.experience?.some((exp: Experience) => exp.achievements && exp.achievements.length > 0)) {
       improvements.push("📊 Quantified Results - Add specific metrics and business impact numbers")
     }
     
@@ -188,7 +235,8 @@ export class ContentRecommendationEngine {
   }
   
   // Content Recommendations Generator
-  private static generateRecommendations(profile: any, hrAnalysis: HRAnalysis): ContentRecommendation[] {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static generateRecommendations(profile: ProfileData, hrAnalysis: HRAnalysis): ContentRecommendation[] {
     const recommendations: ContentRecommendation[] = []
     
     // Hero Section Optimization
@@ -199,101 +247,87 @@ export class ContentRecommendationEngine {
       description: "Create a headline that immediately communicates your value proposition and key expertise",
       rationale: "Recruiters spend 6-10 seconds on initial profile scan. Strong headline determines if they continue reading.",
       examples: [
-        "Senior Full-Stack Developer | React & Node.js Expert | AI Integration Specialist",
-        "Full-Stack Engineer | 5+ Years Building Scalable Web Applications | Python & JavaScript",
-        "Senior Developer | Enterprise Solutions Architect | Cloud-Native Development Leader"
+        "Senior Full-Stack Developer | React + Node.js Specialist | Building Scalable Web Applications",
+        "Frontend Team Lead | 5+ Years Transforming Ideas into User-Centric Digital Experiences",
+        "Full-Stack Engineer | AI Integration Expert | Driving Business Growth Through Technology"
       ],
-      keywords: ["Senior", "Full-Stack", "Expert", "Specialist", "Years", "Scalable", "Enterprise"],
-      impact: "400% increase in profile engagement and recruiter inquiries"
+      keywords: ["Senior", "Full-Stack", "React", "Node.js", "Team Lead", "AI Integration"],
+      impact: "Increases profile view time by 40% and recruiter engagement by 60%"
     })
     
-    // Experience Section
+    // Experience Section Enhancement
     recommendations.push({
-      section: "Professional Experience",
+      section: "Experience",
       priority: "high",
-      title: "Quantify Your Impact with Metrics",
-      description: "Transform job descriptions into achievement-focused narratives with specific numbers",
-      rationale: "HR managers look for candidates who understand business impact, not just technical tasks.",
+      title: "Quantify Your Professional Impact",
+      description: "Transform job descriptions into achievement-focused narratives with specific metrics",
+      rationale: "HR managers need concrete evidence of your business impact. Numbers build credibility and demonstrate ROI.",
       examples: [
-        "Architected microservices infrastructure serving 100K+ users with 99.9% uptime",
-        "Reduced deployment time by 75% through CI/CD automation, enabling 3x faster feature delivery",
-        "Led team of 4 developers to deliver $2M+ revenue-generating platform ahead of schedule"
+        "Increased application performance by 45% through React optimization, reducing bounce rate from 25% to 14%",
+        "Led a team of 4 developers to deliver 3 major features ahead of schedule, resulting in $2M additional revenue",
+        "Implemented automated testing pipeline, reducing deployment time from 4 hours to 30 minutes"
       ],
-      keywords: ["increased", "reduced", "improved", "delivered", "achieved", "optimized", "scaled"],
-      impact: "3x higher interview callback rate with quantified achievements"
+      keywords: ["increased", "reduced", "led", "implemented", "achieved", "delivered"],
+      impact: "Profiles with quantified achievements receive 3x more interview invitations"
     })
     
     // Projects Showcase
-    recommendations.push({
-      section: "Project Portfolio",
-      priority: "high",
-      title: "Showcase Business-Impact Projects",
-      description: "Highlight projects that solve real business problems with measurable outcomes",
-      rationale: "Recruiters want to see how your technical skills translate to business value.",
-      examples: [
-        "E-commerce Platform - Increased conversion rates by 40% through optimized checkout flow",
-        "Real-time Analytics Dashboard - Reduced reporting time from hours to seconds for 500+ users",
-        "AI-Powered Content System - Automated 80% of content workflows, saving 20+ hours/week"
-      ],
-      keywords: ["increased", "reduced", "automated", "optimized", "streamlined", "enhanced"],
-      impact: "Higher project relevance score and technical interview success rate"
-    })
+    if (!profile.projects || profile.projects.length < 3) {
+      recommendations.push({
+        section: "Projects",
+        priority: "high",
+        title: "Build a Compelling Project Portfolio",
+        description: "Showcase 3-5 diverse projects that demonstrate your technical range and problem-solving ability",
+        rationale: "Projects are the #1 factor technical recruiters evaluate. They prove you can deliver complete solutions.",
+        examples: [
+          "E-commerce Platform - Full-stack application with payment integration and admin dashboard",
+          "Real-time Chat Application - WebSocket implementation with user authentication and message history",
+          "Data Visualization Dashboard - React-based analytics platform with interactive charts"
+        ],
+        keywords: ["full-stack", "real-time", "payment integration", "authentication", "analytics"],
+        impact: "Candidates with 3+ projects have 4x higher chance of passing technical screening"
+      })
+    }
     
-    // Skills Presentation
+    // Skills Section Optimization
     recommendations.push({
-      section: "Technical Skills",
+      section: "Skills",
       priority: "medium",
-      title: "Strategic Skill Categorization",
-      description: "Group skills by relevance to target roles and include proficiency indicators",
-      rationale: "Organized skill presentation helps recruiters quickly assess technical fit.",
+      title: "Organize Skills by Business Value",
+      description: "Group technical skills into categories and highlight proficiency levels with context",
+      rationale: "Recruiters scan skills for specific requirements. Clear organization helps them quickly assess fit.",
       examples: [
-        "Frontend Mastery: React (Advanced), TypeScript (Advanced), Next.js (Intermediate)",
-        "Backend Excellence: Node.js (Expert), Python (Advanced), PostgreSQL (Advanced)",
-        "Cloud & DevOps: AWS (Intermediate), Docker (Advanced), Kubernetes (Learning)"
+        "Frontend: React (Expert), TypeScript (Advanced), CSS/SCSS (Advanced)",
+        "Backend: Node.js (Expert), Python (Intermediate), PostgreSQL (Advanced)",
+        "DevOps: Docker (Advanced), AWS (Intermediate), CI/CD (Advanced)"
       ],
-      keywords: ["Expert", "Advanced", "Proficient", "Intermediate", "Learning"],
-      impact: "Better ATS parsing and recruiter skill matching"
+      keywords: ["Expert", "Advanced", "Intermediate", "Frontend", "Backend", "DevOps"],
+      impact: "Well-organized skills sections increase recruiter confidence by 35%"
     })
     
-    // Social Proof
-    recommendations.push({
-      section: "Credibility Indicators",
-      priority: "high",
-      title: "Add Social Proof Elements",
-      description: "Include testimonials, recommendations, and third-party validations",
-      rationale: "Social proof reduces hiring risk and increases trust in your capabilities.",
-      examples: [
-        "Client testimonials with specific project outcomes",
-        "LinkedIn recommendations from managers and colleagues",
-        "GitHub contributions showing consistent code quality",
-        "Industry certifications from recognized authorities"
-      ],
-      keywords: ["testimonial", "recommendation", "certified", "endorsed", "validated"],
-      impact: "60% increase in recruiter confidence and interview conversion"
-    })
-    
-    // Call-to-Action Optimization
-    recommendations.push({
-      section: "Contact & CTA",
-      priority: "medium",
-      title: "Clear Next Steps for Recruiters",
-      description: "Make it effortless for recruiters to take the next step in the hiring process",
-      rationale: "Remove friction from the recruiter's workflow to increase response rates.",
-      examples: [
-        "Schedule a 15-minute technical discussion",
-        "Download my detailed technical portfolio",
-        "View my live project demonstrations",
-        "Connect for immediate availability updates"
-      ],
-      keywords: ["schedule", "download", "view", "connect", "available", "discuss"],
-      impact: "2x higher response rate from qualified opportunities"
-    })
+    // Testimonials & Social Proof
+    if (!profile.testimonials || profile.testimonials.length === 0) {
+      recommendations.push({
+        section: "Testimonials",
+        priority: "medium",
+        title: "Add Client and Colleague Testimonials",
+        description: "Include 2-3 strong testimonials that validate your technical skills and work ethic",
+        rationale: "Social proof reduces hiring risk. Testimonials from previous clients/managers build trust.",
+        examples: [
+          "Working with [Name] was exceptional. They delivered our e-commerce platform 2 weeks ahead of schedule.",
+          "[Name] is a problem-solver who consistently finds creative solutions to complex technical challenges.",
+          "Their attention to detail and ability to explain technical concepts to non-technical stakeholders is remarkable."
+        ],
+        keywords: ["exceptional", "ahead of schedule", "problem-solver", "creative solutions", "attention to detail"],
+        impact: "Profiles with testimonials have 50% higher conversion from view to interview"
+      })
+    }
     
     return recommendations
   }
   
-  // Section Evaluation
-  private static evaluateSections(profile: any) {
+  // Section Evaluation Methods
+  private static evaluateSections(profile: ProfileData) {
     return {
       hero: this.evaluateHeroSection(profile),
       experience: this.evaluateExperienceSection(profile),
@@ -304,129 +338,162 @@ export class ContentRecommendationEngine {
     }
   }
   
-  private static evaluateHeroSection(profile: any): number {
-    let score = 50 // Base score
-    
-    if (profile.name) score += 10
-    if (profile.title && profile.title.length > 10) score += 15
-    if (profile.summary && profile.summary.length > 100) score += 15
-    if (profile.location) score += 5
-    if (profile.profileImage) score += 5
-    
-    return Math.min(score, 100)
-  }
-  
-  private static evaluateExperienceSection(profile: any): number {
-    let score = 20 // Base score
-    
-    const experiences = profile.experience || []
-    
-    if (experiences.length >= 2) score += 20
-    if (experiences.length >= 4) score += 10
-    
-    const hasQuantifiedAchievements = experiences.some((exp: any) => 
-      exp.achievements?.length > 0 || 
-      exp.description?.match(/\d+%|\d+x|\d+\s*(users|projects|revenue)/i)
-    )
-    
-    if (hasQuantifiedAchievements) score += 25
-    
-    const hasRecentExperience = experiences.some((exp: any) => 
-      !exp.endDate || new Date(exp.endDate) > new Date(Date.now() - 365*24*60*60*1000)
-    )
-    
-    if (hasRecentExperience) score += 15
-    
-    const hasSeniorRoles = experiences.some((exp: any) => 
-      exp.title?.toLowerCase().includes('senior') || 
-      exp.title?.toLowerCase().includes('lead')
-    )
-    
-    if (hasSeniorRoles) score += 10
-    
-    return Math.min(score, 100)
-  }
-  
-  private static evaluateProjectsSection(profile: any): number {
-    let score = 10 // Base score
-    
-    const projects = profile.projects || []
-    
-    if (projects.length >= 3) score += 30
-    if (projects.length >= 5) score += 10
-    
-    const hasLiveDemos = projects.some((proj: any) => proj.demo_url)
-    if (hasLiveDemos) score += 20
-    
-    const hasGithubLinks = projects.some((proj: any) => proj.github_url)
-    if (hasGithubLinks) score += 15
-    
-    const hasBusinessImpact = projects.some((proj: any) => 
-      proj.description?.match(/increased|reduced|improved|automated|optimized/i)
-    )
-    if (hasBusinessImpact) score += 15
-    
-    return Math.min(score, 100)
-  }
-  
-  private static evaluateSkillsSection(profile: any): number {
-    let score = 20 // Base score
-    
-    const skills = profile.skills || []
-    
-    if (skills.length >= 8) score += 20
-    if (skills.length >= 12) score += 10
-    
-    const hasAdvancedSkills = skills.some((skill: any) => skill.level >= 80)
-    if (hasAdvancedSkills) score += 25
-    
-    const hasModernTech = skills.some((skill: any) => 
-      ['react', 'typescript', 'docker', 'aws', 'kubernetes'].includes(skill.name.toLowerCase())
-    )
-    if (hasModernTech) score += 15
-    
-    const hasSkillIcons = skills.some((skill: any) => skill.icon_url)
-    if (hasSkillIcons) score += 10
-    
-    return Math.min(score, 100)
-  }
-  
-  private static evaluateAchievementsSection(profile: any): number {
+  private static evaluateHeroSection(profile: ProfileData): number {
     let score = 0
     
-    const certifications = profile.certifications || []
-    if (certifications.length >= 2) score += 40
-    if (certifications.length >= 4) score += 20
-    
-    const hasRecentCertifications = certifications.some((cert: any) => 
-      new Date(cert.date) > new Date(Date.now() - 2*365*24*60*60*1000)
-    )
-    if (hasRecentCertifications) score += 20
-    
-    const hasIndustryRecognition = certifications.some((cert: any) => 
-      ['aws', 'google', 'microsoft', 'meta', 'oracle'].some(company => 
-        cert.issuer?.toLowerCase().includes(company)
-      )
-    )
-    if (hasIndustryRecognition) score += 20
+    if (profile.name) score += 20
+    if (profile.title) score += 25
+    if (profile.summary && profile.summary.length > 50) score += 30
+    if (profile.location) score += 15
+    if (profile.summary && profile.summary.includes('years')) score += 10
     
     return Math.min(score, 100)
   }
   
-  private static evaluateTestimonialsSection(profile: any): number {
-    // Placeholder for testimonials evaluation
-    return 0 // Typically missing in most portfolios
+  private static evaluateExperienceSection(profile: ProfileData): number {
+    if (!profile.experience || profile.experience.length === 0) return 0
+    
+    let score = 0
+    const experiences = profile.experience
+    
+    // Experience quantity
+    if (experiences.length >= 3) score += 25
+    else if (experiences.length >= 2) score += 15
+    else score += 5
+    
+    // Experience quality
+    const hasAchievements = experiences.some(exp => exp.achievements && exp.achievements.length > 0)
+    if (hasAchievements) score += 30
+    
+    const hasDetailedDescriptions = experiences.some(exp => exp.description && exp.description.length > 100)
+    if (hasDetailedDescriptions) score += 20
+    
+    const hasSeniorRoles = experiences.some(exp => 
+      exp.title.toLowerCase().includes('senior') || 
+      exp.title.toLowerCase().includes('lead')
+    )
+    if (hasSeniorRoles) score += 15
+    
+    const hasRecentExperience = experiences.some(exp => {
+      const endDate = exp.endDate ? new Date(exp.endDate) : new Date()
+      const yearsDiff = (new Date().getFullYear() - endDate.getFullYear())
+      return yearsDiff <= 2
+    })
+    if (hasRecentExperience) score += 10
+    
+    return Math.min(score, 100)
   }
   
-  // Utility Methods
-  private static calculateOverallScore(sections: any): number {
+  private static evaluateProjectsSection(profile: ProfileData): number {
+    if (!profile.projects || profile.projects.length === 0) return 0
+    
+    let score = 0
+    const projects = profile.projects
+    
+    // Project quantity
+    if (projects.length >= 5) score += 30
+    else if (projects.length >= 3) score += 20
+    else if (projects.length >= 2) score += 10
+    else score += 5
+    
+    // Project quality
+    const hasLiveDemo = projects.some(project => project.demo_url)
+    if (hasLiveDemo) score += 25
+    
+    const hasSourceCode = projects.some(project => project.github_url)
+    if (hasSourceCode) score += 20
+    
+    const hasDiverseTech = projects.some(project => project.technologies.length >= 3)
+    if (hasDiverseTech) score += 15
+    
+    const hasDetailedDescriptions = projects.some(project => project.description.length > 100)
+    if (hasDetailedDescriptions) score += 10
+    
+    return Math.min(score, 100)
+  }
+  
+  private static evaluateSkillsSection(profile: ProfileData): number {
+    if (!profile.skills || profile.skills.length === 0) return 0
+    
+    let score = 0
+    const skills = profile.skills
+    
+    // Skill quantity
+    if (skills.length >= 10) score += 20
+    else if (skills.length >= 7) score += 15
+    else if (skills.length >= 5) score += 10
+    else score += 5
+    
+    // Skill proficiency
+    const hasExpertSkills = skills.some(skill => skill.level >= 85)
+    if (hasExpertSkills) score += 25
+    
+    const hasAdvancedSkills = skills.some(skill => skill.level >= 70)
+    if (hasAdvancedSkills) score += 20
+    
+    const averageLevel = this.calculateAverageSkillLevel(skills)
+    if (averageLevel >= 75) score += 15
+    else if (averageLevel >= 60) score += 10
+    else score += 5
+    
+    // Skill diversity
+    const categories = new Set(skills.map(skill => skill.category).filter(Boolean))
+    if (categories.size >= 3) score += 15
+    else if (categories.size >= 2) score += 10
+    else score += 5
+    
+    return Math.min(score, 100)
+  }
+  
+  private static evaluateAchievementsSection(profile: ProfileData): number {
+    let score = 0
+    
+    // Experience achievements
+    const experienceAchievements = profile.experience?.reduce((total, exp) => {
+      return total + (exp.achievements?.length || 0)
+    }, 0) || 0
+    
+    if (experienceAchievements >= 5) score += 30
+    else if (experienceAchievements >= 3) score += 20
+    else if (experienceAchievements >= 1) score += 10
+    
+    // Certifications
+    if (profile.certifications && profile.certifications.length >= 3) score += 25
+    else if (profile.certifications && profile.certifications.length >= 2) score += 15
+    else if (profile.certifications && profile.certifications.length >= 1) score += 10
+    
+    // Additional achievements
+    if (profile.speaking_events && profile.speaking_events.length > 0) score += 15
+    if (profile.open_source && profile.open_source.length > 0) score += 15
+    if (profile.blog_posts && profile.blog_posts.length > 0) score += 15
+    
+    return Math.min(score, 100)
+  }
+  
+  private static evaluateTestimonialsSection(profile: ProfileData): number {
+    if (!profile.testimonials || profile.testimonials.length === 0) return 0
+    
+    let score = 0
+    
+    if (profile.testimonials.length >= 3) score += 60
+    else if (profile.testimonials.length >= 2) score += 40
+    else score += 20
+    
+    // Quality indicators (assuming testimonials are strings)
+    const hasDetailedTestimonials = profile.testimonials.some(testimonial => testimonial.length > 100)
+    if (hasDetailedTestimonials) score += 40
+    
+    return Math.min(score, 100)
+  }
+  
+  private static calculateOverallScore(sections: Record<string, number>): number {
     const weights = {
-      hero: 0.2,
+      hero: 0.15,
       experience: 0.25,
       projects: 0.25,
       skills: 0.15,
-      achievements: 0.1,
-      testimonials: 0.05
+      achievements: 0.10,
+      testimonials: 0.10
     }
     
     return Math.round(
@@ -436,7 +503,7 @@ export class ContentRecommendationEngine {
     )
   }
   
-  private static identifyMissingElements(profile: any): string[] {
+  private static identifyMissingElements(profile: ProfileData): string[] {
     const missing: string[] = []
     
     if (!profile.projects || profile.projects.length < 3) {
@@ -466,7 +533,7 @@ export class ContentRecommendationEngine {
     return missing
   }
   
-  private static calculateExperienceYears(experiences: any[]): number {
+  private static calculateExperienceYears(experiences: Experience[]): number {
     let totalMonths = 0
     experiences.forEach(exp => {
       const start = new Date(exp.startDate)
@@ -477,7 +544,7 @@ export class ContentRecommendationEngine {
     return Math.round(totalMonths / 12)
   }
   
-  private static calculateAverageSkillLevel(skills: any[]): number {
+  private static calculateAverageSkillLevel(skills: Skill[]): number {
     if (skills.length === 0) return 0
     const totalLevel = skills.reduce((sum, skill) => sum + (skill.level || 50), 0)
     return Math.round(totalLevel / skills.length)
@@ -487,7 +554,7 @@ export class ContentRecommendationEngine {
 // HR Recruiter Insights Generator
 export class HRInsightsGenerator {
   
-  static generateHiringRecommendation(profile: any): {
+  static generateHiringRecommendation(profile: ProfileData): {
     recommendation: 'hire' | 'interview' | 'reject'
     confidence: number
     reasoning: string[]
@@ -521,7 +588,8 @@ export class HRInsightsGenerator {
     }
   }
   
-  private static generateInterviewFocus(profile: any): string[] {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static generateInterviewFocus(profile: ProfileData): string[] {
     return [
       "System Architecture & Scalability Design",
       "Problem-Solving Approach & Code Quality",
@@ -532,7 +600,7 @@ export class HRInsightsGenerator {
     ]
   }
   
-  private static estimateSalaryRange(profile: any): string {
+  private static estimateSalaryRange(profile: ProfileData): string {
     const years = ContentRecommendationEngine['calculateExperienceYears'](profile.experience || [])
     const skillLevel = ContentRecommendationEngine['calculateAverageSkillLevel'](profile.skills || [])
     
@@ -545,7 +613,8 @@ export class HRInsightsGenerator {
     }
   }
   
-  private static suggestRoleMatches(profile: any): string[] {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static suggestRoleMatches(profile: ProfileData): string[] {
     const roles = [
       "Senior Full-Stack Developer",
       "Frontend Team Lead",
@@ -561,9 +630,9 @@ export class HRInsightsGenerator {
 // Content Templates Generator
 export class ContentTemplatesGenerator {
   
-  static generateHeroSection(profile: any): string {
+  static generateHeroSection(profile: ProfileData): string {
     const years = ContentRecommendationEngine['calculateExperienceYears'](profile.experience || [])
-    const primarySkills = profile.skills?.slice(0, 3).map((skill: any) => skill.name).join(', ') || "Modern Web Technologies"
+    const primarySkills = profile.skills?.slice(0, 3).map((skill: Skill) => skill.name).join(', ') || "Modern Web Technologies"
     
     return `
 🚀 **${profile.name || "Professional Developer"}**
@@ -582,7 +651,7 @@ Ready to contribute to your next breakthrough project.
     `.trim()
   }
   
-  static generateProjectDescriptions(projects: any[]): string[] {
+  static generateProjectDescriptions(projects: Project[]): string[] {
     return projects.map(project => `
 **${project.title}**
 🚀 ${project.description}
@@ -606,13 +675,13 @@ Ready to contribute to your next breakthrough project.
     `.trim())
   }
   
-  static generateSkillsNarrative(skills: any[]): string {
+  static generateSkillsNarrative(skills: Skill[]): string {
     const categories = skills.reduce((acc, skill) => {
       const category = skill.category || 'other'
       if (!acc[category]) acc[category] = []
       acc[category].push(skill)
       return acc
-    }, {} as Record<string, any[]>)
+    }, {} as Record<string, Skill[]>)
     
     let narrative = "## 🛠️ **Technical Arsenal**\n\n"
     
