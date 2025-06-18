@@ -28,7 +28,7 @@ export default function Home() {
       <section className="hero-section">
         <div className="hero-content">
           <h1 className="hero-title">
-            Outer Space
+            Sofyan Solutions
           </h1>
           <div className="hero-url">
             I help businesses and startups build scalable, efficient, and impactful digital solutions.<br/>
