@@ -159,6 +159,9 @@ export default function AdminPage() {
               <Link href="/" className="nav-link">
                 ← Return to Base
               </Link>
+              <Link href="/auth/logout" className="nav-link text-red-400 hover:text-red-300">
+                🚪 Logout
+              </Link>
             </div>
           </div>
         </div>

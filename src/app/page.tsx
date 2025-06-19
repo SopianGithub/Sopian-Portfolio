@@ -1,12 +1,15 @@
 import PersonalBranding from '@/components/PersonalBranding'
 import ShowcaseProjects from '@/components/ShowcaseProjects'
 import Navbar from '@/components/layout/Navbar'
+import ErrorMessage from '@/components/ErrorMessage'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 relative overflow-hidden">
+      {/* Error Message */}
+      <ErrorMessage />
       {/* Enhanced Space Environment */}
       <div className="space-environment">
         <div className="stars-backdrop"></div>
