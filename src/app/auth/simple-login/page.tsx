@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import type { Database } from '@/types/database'
 
 export default function SimpleLogin() {
@@ -199,7 +200,7 @@ export default function SimpleLogin() {
         </form>
 
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
-          <a 
+          <Link 
             href="/" 
             style={{ 
               color: '#94a3b8', 
@@ -208,7 +209,7 @@ export default function SimpleLogin() {
             }}
           >
             ← Kembali ke Home
-          </a>
+          </Link>
         </div>
       </div>
     </div>
