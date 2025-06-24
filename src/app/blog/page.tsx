@@ -128,28 +128,31 @@ function FeaturedPostCard({ post, index }: { post: BlogPost; index: number }) {
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-cyan-400/10 to-transparent rounded-full blur-xl group-hover:from-cyan-400/20 transition-all duration-500"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-cyan-400/10 to-transparent rounded-full blur-xl group-hover:from-cyan-400/20 transition-all duration-500 z-0"></div>
       
       {/* Featured Badge */}
-      <div className="absolute top-4 right-4 z-10">
+      <div className="absolute top-4 right-4 z-20">
         <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur-sm border border-yellow-500/30 px-3 py-1 rounded-full">
           <span className="text-yellow-300 text-sm font-medium">⭐ Featured</span>
         </div>
       </div>
 
-      <div className="relative p-8">
-        {/* Mission Image Placeholder */}
-        <div className="mb-6 aspect-video rounded-xl bg-gradient-to-br from-slate-700/50 to-slate-800/50 border border-slate-600/30 flex items-center justify-center overflow-hidden">
+      <div className="relative z-10 p-8">
+        {/* Mission Image */}
+        <div className="relative mb-6 aspect-video rounded-xl bg-gradient-to-br from-slate-700/50 to-slate-800/50 border border-slate-600/30 overflow-hidden">
           {post.image_url ? (
             <Image 
               src={post.image_url} 
               alt={post.title}
               fill
-              className="object-cover"
+              className="object-cover rounded-xl"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           ) : (
-            <div className="text-6xl text-slate-500">🛰️</div>
+            <div className="flex items-center justify-center h-full">
+              <span className="text-6xl text-slate-500">🛰️</span>
+            </div>
           )}
         </div>
 
@@ -233,20 +236,23 @@ function RegularPostCard({ post, index }: { post: BlogPost; index: number }) {
       style={{ animationDelay: `${index * 0.05}s` }}
     >
       {/* Subtle Glow Effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-600/5 to-slate-700/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-600/5 to-slate-700/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"></div>
 
-      <div className="relative p-6">
+      <div className="relative z-10 p-6">
         {/* Mission Image */}
-        <div className="mb-4 aspect-video rounded-lg bg-gradient-to-br from-slate-700/30 to-slate-800/30 border border-slate-600/20 flex items-center justify-center overflow-hidden">
+        <div className="relative mb-4 aspect-video rounded-lg bg-gradient-to-br from-slate-700/30 to-slate-800/30 border border-slate-600/20 overflow-hidden">
           {post.image_url ? (
             <Image 
               src={post.image_url} 
               alt={post.title}
               fill
-              className="object-cover"
+              className="object-cover rounded-lg"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           ) : (
-            <div className="text-4xl text-slate-500">🌌</div>
+            <div className="flex items-center justify-center h-full">
+              <span className="text-4xl text-slate-500">🌌</span>
+            </div>
           )}
         </div>
 
