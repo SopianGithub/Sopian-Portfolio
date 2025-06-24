@@ -33,7 +33,17 @@ export const createAdminClient = () => {
   })
 }
 
-// Type-safe table references
+// Create admin client instance for server-side operations
+const adminClient = (() => {
+  try {
+    return createAdminClient()
+  } catch (error) {
+    console.warn('Admin client not available:', error)
+    return null
+  }
+})()
+
+// Type-safe table references for public operations
 export const tables = {
   projects: () => supabase.from('projects'),
   blogPosts: () => supabase.from('blog_posts'),
@@ -42,6 +52,17 @@ export const tables = {
   contactMessages: () => supabase.from('contact_messages'),
   adminUsers: () => supabase.from('admin_users'),
   siteSettings: () => supabase.from('site_settings'),
+} as const
+
+// Type-safe table references for admin operations using service role
+export const adminTables = {
+  projects: () => adminClient?.from('projects') || supabase.from('projects'),
+  blogPosts: () => adminClient?.from('blog_posts') || supabase.from('blog_posts'),
+  experiences: () => adminClient?.from('experiences') || supabase.from('experiences'),
+  skills: () => adminClient?.from('skills') || supabase.from('skills'),
+  contactMessages: () => adminClient?.from('contact_messages') || supabase.from('contact_messages'),
+  adminUsers: () => adminClient?.from('admin_users') || supabase.from('admin_users'),
+  siteSettings: () => adminClient?.from('site_settings') || supabase.from('site_settings'),
 } as const
 
 // Export the default client

@@ -1,4 +1,4 @@
-import { tables } from '@/lib/supabase'
+import { tables, adminTables } from '@/lib/supabase'
 import type { BlogPost, BlogPostInsert, BlogPostUpdate } from '@/types/database'
 
 export class BlogAPI {
@@ -98,7 +98,7 @@ export class BlogAPI {
    * Get all posts for admin (including drafts)
    */
   static async getAllPosts() {
-    const { data, error } = await tables.blogPosts()
+    const { data, error } = await adminTables.blogPosts()
       .select('*')
       .order('created_at', { ascending: false })
 
@@ -110,7 +110,7 @@ export class BlogAPI {
    * Get single post by ID (admin)
    */
   static async getPostById(id: string) {
-    const { data, error } = await tables.blogPosts()
+    const { data, error } = await adminTables.blogPosts()
       .select('*')
       .eq('id', id)
       .single()
@@ -128,7 +128,7 @@ export class BlogAPI {
    * Create new blog post
    */
   static async createPost(post: BlogPostInsert) {
-    const { data, error } = await tables.blogPosts()
+    const { data, error } = await adminTables.blogPosts()
       .insert(post)
       .select()
       .single()
@@ -141,7 +141,7 @@ export class BlogAPI {
    * Update blog post
    */
   static async updatePost(id: string, updates: BlogPostUpdate) {
-    const { data, error } = await tables.blogPosts()
+    const { data, error } = await adminTables.blogPosts()
       .update(updates)
       .eq('id', id)
       .select()
@@ -155,7 +155,7 @@ export class BlogAPI {
    * Delete blog post
    */
   static async deletePost(id: string) {
-    const { error } = await tables.blogPosts()
+    const { error } = await adminTables.blogPosts()
       .delete()
       .eq('id', id)
 
@@ -167,7 +167,7 @@ export class BlogAPI {
    * Publish post
    */
   static async publishPost(id: string) {
-    const { data, error } = await tables.blogPosts()
+    const { data, error } = await adminTables.blogPosts()
       .update({ 
         status: 'published', 
         published_at: new Date().toISOString() 
@@ -184,7 +184,7 @@ export class BlogAPI {
    * Unpublish post (set to draft)
    */
   static async unpublishPost(id: string) {
-    const { data, error } = await tables.blogPosts()
+    const { data, error } = await adminTables.blogPosts()
       .update({ 
         status: 'draft', 
         published_at: null 
@@ -201,7 +201,7 @@ export class BlogAPI {
    * Check if slug is available
    */
   static async isSlugAvailable(slug: string, excludeId?: string) {
-    let query = tables.blogPosts()
+    let query = adminTables.blogPosts()
       .select('id')
       .eq('slug', slug)
 
@@ -209,7 +209,7 @@ export class BlogAPI {
       query = query.neq('id', excludeId)
     }
 
-    const { data, error } = await query.limit(1)
+    const { data, error } = await query
 
     if (error) throw error
     return data.length === 0
@@ -220,11 +220,15 @@ export class BlogAPI {
    */
   static async toggleFeatured(id: string) {
     // First get current status
-    const post = await this.getPostById(id)
-    if (!post) throw new Error('Post not found')
+    const { data: currentPost } = await adminTables.blogPosts()
+      .select('featured')
+      .eq('id', id)
+      .single()
 
-    const { data, error } = await tables.blogPosts()
-      .update({ featured: !post.featured })
+    if (!currentPost) throw new Error('Post not found')
+
+    const { data, error } = await adminTables.blogPosts()
+      .update({ featured: !currentPost.featured })
       .eq('id', id)
       .select()
       .single()
@@ -238,47 +242,42 @@ export class BlogAPI {
    */
   static async incrementViews(id: string) {
     // Get current views count
-    const { data: currentPost, error: getError } = await tables.blogPosts()
+    const { data: currentPost } = await tables.blogPosts()
       .select('views')
       .eq('id', id)
       .single()
 
-    if (getError || !currentPost) {
-      console.error('Error getting current views:', getError)
-      return
-    }
+    if (!currentPost) return
 
-    // Update with incremented value
-    const { error } = await tables.blogPosts()
-      .update({ views: currentPost.views + 1 })
+    const { error } = await adminTables.blogPosts()
+      .update({ views: (currentPost.views || 0) + 1 })
       .eq('id', id)
 
-    if (error) console.error('Error incrementing views:', error)
+    if (error) {
+      console.error('Error incrementing views:', error)
+    }
   }
 
   /**
-   * Increment likes count
+   * Increment like count
    */
   static async incrementLikes(id: string) {
     // Get current likes count
-    const { data: currentPost, error: getError } = await tables.blogPosts()
+    const { data: currentPost } = await tables.blogPosts()
       .select('likes')
       .eq('id', id)
       .single()
 
-    if (getError || !currentPost) {
-      throw new Error('Post not found')
-    }
+    if (!currentPost) throw new Error('Post not found')
 
-    // Update with incremented value
-    const { data, error } = await tables.blogPosts()
-      .update({ likes: currentPost.likes + 1 })
+    const { data, error } = await adminTables.blogPosts()
+      .update({ likes: (currentPost.likes || 0) + 1 })
       .eq('id', id)
-      .select('likes')
+      .select()
       .single()
 
     if (error) throw error
-    return data.likes
+    return data as BlogPost
   }
 
   /**
@@ -293,18 +292,19 @@ export class BlogAPI {
 
     // Extract and flatten all tags
     const allTags = data
-      .flatMap(post => (post.tags as string[]) || [])
-      .filter((tag, index, arr) => arr.indexOf(tag) === index)
-      .sort()
+      .map(post => post.tags || [])
+      .flat()
+      .filter(tag => tag && typeof tag === 'string')
 
-    return allTags
+    // Return unique tags
+    return Array.from(new Set(allTags)) as string[]
   }
 
   /**
    * Get related posts based on tags
    */
   static async getRelatedPosts(postId: string, tags: string[], limit = 3) {
-    if (!tags || tags.length === 0) return []
+    if (!tags.length) return []
 
     const { data, error } = await tables.blogPosts()
       .select('*')

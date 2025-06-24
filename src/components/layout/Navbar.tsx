@@ -24,6 +24,7 @@ export default function Navbar() {
     { href: '/', label: 'Home' },
     { href: '/#profile-section', label: 'Profile' },
     { href: '/#projects', label: 'Projects' },
+    { href: '/blog', label: 'Blog' },
     { href: '/contact', label: 'Contact' }
   ]
 
@@ -115,6 +116,22 @@ export default function Navbar() {
               }}
             >
               Projects
+            </Link>
+            
+            <Link
+              href="/blog"
+              style={{
+                color: pathname.startsWith('/blog') ? '#06b6d4' : '#ffffff',
+                textDecoration: 'none',
+                fontWeight: '600',
+                fontSize: '16px',
+                padding: '8px 16px',
+                borderRadius: '6px',
+                transition: 'all 0.3s ease',
+                backgroundColor: pathname.startsWith('/blog') ? 'rgba(6, 182, 212, 0.1)' : 'transparent'
+              }}
+            >
+              🚀 Mission Logs
             </Link>
             
             <Link

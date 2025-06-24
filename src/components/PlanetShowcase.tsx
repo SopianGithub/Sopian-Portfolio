@@ -3,74 +3,78 @@ import StatCard from './StatCard';
 
 const PlanetShowcase: React.FC = () => {
   return (
-    <div className="min-h-screen aerospace-bg p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold aerospace-text-primary mb-4">
-            Aerospace Portfolio
+        {/* Header Section - Responsive */}
+        <div className="text-center mb-12 md:mb-16">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6">
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Aerospace Portfolio
+            </span>
           </h1>
-          <p className="text-xl aerospace-text-secondary">
+          <p className="text-lg sm:text-xl text-slate-300">
             Explore the universe of possibilities
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Main Stats Grid - Responsive */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-16">
           {/* Rocky Planet - Projects */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center p-4 bg-slate-800/50 backdrop-blur border border-slate-600/30 rounded-xl hover:border-orange-400/40 transition-all duration-300 hover:transform hover:scale-105">
             <StatCard
               value={25}
               suffix="+"
               label="Projects Completed"
               planetType="rocky"
             />
-            <p className="aerospace-text-accent text-sm mt-4 text-center">
+            <p className="text-orange-300 text-xs sm:text-sm mt-4 text-center leading-relaxed">
               Rocky planets represent solid achievements
             </p>
           </div>
 
           {/* Gas Planet - Experience */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center p-4 bg-slate-800/50 backdrop-blur border border-slate-600/30 rounded-xl hover:border-blue-400/40 transition-all duration-300 hover:transform hover:scale-105">
             <StatCard
               value={5}
               suffix=" Years"
               label="Industry Experience"
               planetType="gas"
             />
-            <p className="aerospace-text-accent text-sm mt-4 text-center">
+            <p className="text-blue-300 text-xs sm:text-sm mt-4 text-center leading-relaxed">
               Gas giants show vast experience and depth
             </p>
           </div>
 
           {/* Ice Planet - Technologies */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center p-4 bg-slate-800/50 backdrop-blur border border-slate-600/30 rounded-xl hover:border-cyan-400/40 transition-all duration-300 hover:transform hover:scale-105">
             <StatCard
               value={15}
               suffix="+"
               label="Technologies Mastered"
               planetType="ice"
             />
-            <p className="aerospace-text-accent text-sm mt-4 text-center">
+            <p className="text-cyan-300 text-xs sm:text-sm mt-4 text-center leading-relaxed">
               Ice planets reflect cool technical skills
             </p>
           </div>
 
           {/* Terrestrial Planet - Clients */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center p-4 bg-slate-800/50 backdrop-blur border border-slate-600/30 rounded-xl hover:border-green-400/40 transition-all duration-300 hover:transform hover:scale-105">
             <StatCard
               value={50}
               suffix="+"
               label="Happy Clients"
               planetType="terrestrial"
             />
-            <p className="aerospace-text-accent text-sm mt-4 text-center">
+            <p className="text-green-300 text-xs sm:text-sm mt-4 text-center leading-relaxed">
               Terrestrial planets symbolize growth and life
             </p>
           </div>
         </div>
 
-        {/* Additional Stats Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-          <div className="flex flex-col items-center">
+        {/* Additional Stats Row - Responsive */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
+          <div className="flex flex-col items-center p-4 bg-slate-800/50 backdrop-blur border border-slate-600/30 rounded-xl hover:border-orange-400/40 transition-all duration-300 hover:transform hover:scale-105">
             <StatCard
               value={99}
               suffix="%"
@@ -78,7 +82,7 @@ const PlanetShowcase: React.FC = () => {
               planetType="rocky"
             />
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center p-4 bg-slate-800/50 backdrop-blur border border-slate-600/30 rounded-xl hover:border-blue-400/40 transition-all duration-300 hover:transform hover:scale-105">
             <StatCard
               value={24}
               suffix="/7"
@@ -86,7 +90,7 @@ const PlanetShowcase: React.FC = () => {
               planetType="gas"
             />
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center p-4 bg-slate-800/50 backdrop-blur border border-slate-600/30 rounded-xl hover:border-cyan-400/40 transition-all duration-300 hover:transform hover:scale-105">
             <StatCard
               value={1000}
               suffix="+"
@@ -96,65 +100,89 @@ const PlanetShowcase: React.FC = () => {
           </div>
         </div>
 
-        {/* Planet Type Legend */}
-        <div className="mt-16 p-8 aerospace-bg-alt rounded-lg border border-slate-600/30">
-          <h3 className="text-2xl font-bold aerospace-text-primary mb-8 text-center">
-            Planet Types Explained
+        {/* Planet Type Legend - Responsive */}
+        <div className="p-6 sm:p-8 bg-slate-800/50 backdrop-blur border border-slate-600/30 rounded-xl md:rounded-2xl">
+          <h3 className="text-xl sm:text-2xl font-bold text-white mb-6 md:mb-8 text-center">
+            <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              Planet Types Explained
+            </span>
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full planet-rocky mx-auto mb-4 planet-shadow-subtle"></div>
-              <h4 className="text-amber-300 font-semibold mb-2">Rocky Planets</h4>
-              <p className="aerospace-text-accent text-sm">Solid achievements and concrete results</p>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            {/* Rocky Planet */}
+            <div className="text-center p-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-all duration-300">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-orange-400 to-red-500 mx-auto mb-4 shadow-lg flex items-center justify-center">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-orange-500 to-red-600"></div>
+              </div>
+              <h4 className="text-orange-300 font-semibold mb-2 text-sm sm:text-base">Rocky Planets</h4>
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">Solid achievements and concrete results</p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full planet-gas mx-auto mb-4 planet-shadow-subtle relative">
+
+            {/* Gas Giant */}
+            <div className="text-center p-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-all duration-300">
+              <div className="relative w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4">
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 shadow-lg"></div>
                 <div className="absolute inset-0 rounded-full border border-slate-400/20 transform rotate-12 scale-110"></div>
               </div>
-              <h4 className="text-blue-300 font-semibold mb-2">Gas Giants</h4>
-              <p className="aerospace-text-accent text-sm">Vast experience and deep knowledge</p>
+              <h4 className="text-blue-300 font-semibold mb-2 text-sm sm:text-base">Gas Giants</h4>
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">Vast experience and deep knowledge</p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full planet-ice mx-auto mb-4 planet-shadow-subtle relative">
+
+            {/* Ice Planet */}
+            <div className="text-center p-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-all duration-300">
+              <div className="relative w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4">
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-cyan-300 to-blue-400 shadow-lg"></div>
                 <div className="absolute inset-0 rounded-full border border-slate-400/20 transform rotate-12 scale-110"></div>
               </div>
-              <h4 className="text-cyan-300 font-semibold mb-2">Ice Planets</h4>
-              <p className="aerospace-text-accent text-sm">Cool technical skills and precision</p>
+              <h4 className="text-cyan-300 font-semibold mb-2 text-sm sm:text-base">Ice Planets</h4>
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">Cool technical skills and precision</p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full planet-terrestrial mx-auto mb-4 planet-shadow-subtle"></div>
-              <h4 className="text-emerald-300 font-semibold mb-2">Terrestrial</h4>
-              <p className="aerospace-text-accent text-sm">Growth, life, and sustainable solutions</p>
+
+            {/* Terrestrial */}
+            <div className="text-center p-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-all duration-300">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 mx-auto mb-4 shadow-lg flex items-center justify-center">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600"></div>
+              </div>
+              <h4 className="text-green-300 font-semibold mb-2 text-sm sm:text-base">Terrestrial</h4>
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">Growth, life, and sustainable solutions</p>
             </div>
           </div>
         </div>
 
-        {/* Aerospace Features Section */}
-        <div className="mt-16 p-8 aerospace-bg-alt rounded-lg border border-slate-600/30">
-          <h3 className="text-2xl font-bold aerospace-text-primary mb-8 text-center">
-            Aerospace Design Features
+        {/* Aerospace Features Section - Responsive */}
+        <div className="mt-12 md:mt-16 p-6 sm:p-8 bg-slate-800/50 backdrop-blur border border-slate-600/30 rounded-xl md:rounded-2xl">
+          <h3 className="text-xl sm:text-2xl font-bold text-white mb-6 md:mb-8 text-center">
+            <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              Aerospace Design Features
+            </span>
           </h3>
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center p-4">
-              <div className="w-12 h-12 bg-slate-600/30 rounded-full flex items-center justify-center mx-auto mb-4">
+            {/* Dark Theme */}
+            <div className="text-center p-4 sm:p-6 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-all duration-300 hover:transform hover:scale-105">
+              <div className="w-12 h-12 bg-slate-600/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-500/30">
                 <span className="text-slate-300 text-xl">🌌</span>
               </div>
-              <h4 className="aerospace-text-secondary font-semibold mb-2">Dark Theme</h4>
-              <p className="aerospace-text-accent text-sm">Optimized for low-light environments and space aesthetics</p>
+              <h4 className="text-slate-200 font-semibold mb-2 text-sm sm:text-base">Dark Theme</h4>
+              <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">Optimized for low-light environments and space aesthetics</p>
             </div>
-            <div className="text-center p-4">
-              <div className="w-12 h-12 bg-slate-600/30 rounded-full flex items-center justify-center mx-auto mb-4">
+
+            {/* Subtle Animations */}
+            <div className="text-center p-4 sm:p-6 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-all duration-300 hover:transform hover:scale-105">
+              <div className="w-12 h-12 bg-slate-600/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-500/30">
                 <span className="text-slate-300 text-xl">✨</span>
               </div>
-              <h4 className="aerospace-text-secondary font-semibold mb-2">Subtle Animations</h4>
-              <p className="aerospace-text-accent text-sm">Gentle effects that enhance without distracting</p>
+              <h4 className="text-slate-200 font-semibold mb-2 text-sm sm:text-base">Subtle Animations</h4>
+              <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">Gentle effects that enhance without distracting</p>
             </div>
-            <div className="text-center p-4">
-              <div className="w-12 h-12 bg-slate-600/30 rounded-full flex items-center justify-center mx-auto mb-4">
+
+            {/* Performance */}
+            <div className="text-center p-4 sm:p-6 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-all duration-300 hover:transform hover:scale-105">
+              <div className="w-12 h-12 bg-slate-600/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-500/30">
                 <span className="text-slate-300 text-xl">🚀</span>
               </div>
-              <h4 className="aerospace-text-secondary font-semibold mb-2">Performance</h4>
-              <p className="aerospace-text-accent text-sm">Optimized animations and responsive design</p>
+              <h4 className="text-slate-200 font-semibold mb-2 text-sm sm:text-base">Performance</h4>
+              <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">Optimized animations and responsive design</p>
             </div>
           </div>
         </div>
